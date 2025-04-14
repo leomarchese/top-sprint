@@ -3,6 +3,7 @@ import Carousel from "../utils/Carousel";
 import GenericLogo from "/src/assets/img/white-logo.png";
 import { Team } from "./Team";
 import { Skeleton } from "@mui/material";
+import { getSmartFileUrl } from "../../utils/assets";
 
 const loadingSkeleton = () => (
 	<div className="px-3 w-full md:max-w-screen-xl mx-auto">
@@ -41,7 +42,7 @@ export function Teams() {
 								<Team
 									key={team.id}
 									name={team.name || ""}
-									photo={team.photo || { url: GenericLogo }}
+									photo={getSmartFileUrl(team.photo) || GenericLogo }
 								/>
 							))
 						) : (

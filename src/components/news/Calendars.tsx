@@ -2,6 +2,7 @@ import { useGetCalendarsQuery } from "../../graphql/generated";
 import GenericLogo from "/src/assets/img/white-logo.png";
 import { Calendar } from "./Calendar";
 import { Skeleton } from "@mui/material";
+import { getSmartFileUrl } from "../../utils/assets";
 
 const loadingSkeleton = () => {
 	return (
@@ -30,18 +31,27 @@ export function Calendars() {
 				</span>
 
 				<div className="flex flex-wrap gap-4 w-full justify-between">
-					{data?.calendars && data.calendars.length > 0 ? (
-						data.calendars.map((data) => (
-							<Calendar
-								key={data.id}
-								round={data.round || ""}
-								track={data.track || ""}
-								description={data.description || ""}
-								date={data.date || ""}
-								link={data.link || ""}
-								flag={data.flag || { url: GenericLogo }}
-							/>
-						))
+					{data?.seasons[0]?.rounds && data?.seasons[0]?.rounds.length > 0 ? (
+						data?.seasons[0]?.rounds.map((round) => {
+							const roundData = round!;
+							const track = roundData.track || {};
+							const description = track?.name && roundData?.raceWinner
+								? `${track.name} ${roundData.raceWinner}`
+								: track?.name || "";
+
+
+							return (
+								<Calendar
+									key={roundData.id}
+									round={roundData.name || ""}
+									track={track.location || ""}
+									description={description}
+									date={roundData.date || ""}
+									link={roundData.link || ""}
+									flag={getSmartFileUrl(track.flag) || GenericLogo }
+								/>
+							)
+						})
 					) : (
 						<p>No calendar available</p>
 					)}

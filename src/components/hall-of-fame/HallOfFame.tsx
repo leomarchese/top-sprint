@@ -3,7 +3,7 @@ import { useState } from "react";
 
 interface HallOfFameProps {
 	season: string;
-	photo: { url: string };
+	photo: string;
 }
 
 export function HallOfFame(props: HallOfFameProps) {
@@ -28,7 +28,7 @@ export function HallOfFame(props: HallOfFameProps) {
 				/>
 			)}
 			<img
-				src={props.photo.url}
+				src={props.photo}
 				alt={`${props.season} photo`}
 				className={`w-full h-auto object-contain rounded-lg shadow-lg transition-opacity duration-500 ${
 					loading ? "opacity-0" : "opacity-100"

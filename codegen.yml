@@ -1,4 +1,7 @@
-schema: https://us-west-2.cdn.hygraph.com/content/cm12mnmvz09v707n5el5f552n/master
+schema:
+  - https://directus-production-f955.up.railway.app/graphql:
+      headers:
+        Authorization: Bearer ${VITE_API_ACCESS_TOKEN}
 
 documents: "./src/graphql/**/*.graphql"
 

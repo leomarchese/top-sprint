@@ -7,7 +7,7 @@ import { addHours } from "date-fns";
 interface CalendarProps {
 	round: string;
 	track: string;
-	flag: { url: string };
+	flag: string;
 	description: string;
 	link: string;
 	date: Date;
@@ -104,7 +104,7 @@ export function Calendar(props: CalendarProps) {
 					</div>
 
 					<img
-						src={props.flag?.url}
+						src={props.flag}
 						alt={`${props.track} flag`}
 						className="rounded-md w-[46px] h-auto border border-f1-black/70 self-start md:mt-3"
 					/>

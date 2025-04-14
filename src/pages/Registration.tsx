@@ -1,9 +1,8 @@
 import { FormEvent, useState } from "react";
-import { useCreateDriverMutation } from "../graphql/generated";
+// import { useCreateDriverMutation } from "../graphql/generated";
 
 export function Registration() {
-	const [createDriver, { loading: createDriverLoading }] =
-		useCreateDriverMutation();
+	const [createDriver, { loading: createDriverLoading }] = {}
 
 	const [name, setName] = useState("");
 	const [phone, setPhone] = useState("");

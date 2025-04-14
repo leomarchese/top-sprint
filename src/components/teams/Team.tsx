@@ -3,7 +3,7 @@ import { useState } from "react";
 
 interface TeamProps {
 	name: string;
-	photo: { url: string };
+	photo: string;
 }
 
 export function Team(props: TeamProps) {
@@ -28,7 +28,7 @@ export function Team(props: TeamProps) {
 				/>
 			)}
 			<img
-				src={props.photo?.url}
+				src={props.photo}
 				alt={`${props.name} photo`}
 				className={`w-full h-auto object-cover rounded-lg shadow-lg transition-opacity duration-500 ${
 					loading ? "opacity-0" : "opacity-100"

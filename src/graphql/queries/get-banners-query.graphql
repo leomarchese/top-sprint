@@ -1,11 +1,11 @@
 query GetBanners {
-	banners(orderBy: publishedAt_ASC) {
-		id
-		link
-		category
-		title
-		photo {
-			url
-		}
-	}
+  banners(sort: "-date_created") {
+    id
+    link
+    title
+    category
+    photo {
+      id
+    }
+  }
 }

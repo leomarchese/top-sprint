@@ -2,7 +2,7 @@ interface BannerProps {
 	link: string;
 	category: string;
 	title: string;
-	photo: { url: string };
+	photo: string;
 }
 
 export function Banner(props: BannerProps) {
@@ -22,7 +22,7 @@ export function Banner(props: BannerProps) {
 					</div>
 					<div className="overflow-hidden">
 						<img
-							src={props.photo?.url}
+							src={props.photo}
 							alt={`${props.photo} photo`}
 							className="shadow-lg w-full transform transition-transform duration-150 group-hover:scale-110"
 						/>

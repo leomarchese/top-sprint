@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
-import { useGetCalendarsQuery } from "../../graphql/generated";
+import { GetCalendarsQuery, useGetCalendarsQuery } from "../../graphql/generated";
 import GenericLogo from "/src/assets/img/white-logo.png";
 import { NextRace } from "./NextRace";
 import { Skeleton } from "@mui/material";
 import { parseISO, addHours, isAfter } from "date-fns";
+import { getSmartFileUrl } from "../../utils/assets";
 
-interface Calendar {
-	id: string;
-	track?: string | null;
-	round?: string | null;
-	description?: string | null;
-	date?: string | null;
-	link?: string | null;
-	flag?: {
-		url: string;
-	} | null;
-}
+type Round = NonNullable<
+  NonNullable<GetCalendarsQuery["seasons"][number]["rounds"]>[number]
+>;
 
 const loadingSkeleton = () => {
 	return (
@@ -46,24 +39,24 @@ const loadingSkeleton = () => {
 
 export function NextRaces() {
 	const { data, error, loading, refetch } = useGetCalendarsQuery();
-	const [nextRace, setNextRace] = useState<Calendar | null>(null);
+	const [nextRace, setNextRace] = useState<Round | null>(null);
 	const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
 	useEffect(() => {
 		if (data) {
-			const calendars = data?.calendars || [];
+			const calendars = data?.seasons[0]?.rounds || [];
 			const currentDate = new Date();
 
 			const sortedCalendars = [...calendars].sort(
 				(a, b) =>
-					parseISO(a.date).getTime() - parseISO(b.date).getTime()
+					parseISO(a!.date).getTime() - parseISO(b!.date).getTime()
 			);
 
 			let activeRace = null;
 			let nextUpcomingRace = null;
 
 			for (const race of sortedCalendars) {
-				const raceStartTime = parseISO(race.date);
+				const raceStartTime = parseISO(race!.date);
 				const raceEndTime = addHours(raceStartTime, 2);
 
 				if (
@@ -121,11 +114,11 @@ export function NextRaces() {
 				nextRace && nextRace.date ? (
 					<NextRace
 						key={nextRace.id}
-						track={nextRace.track || ""}
+						track={nextRace.track?.location || ""}
 						date={parseISO(nextRace.date)}
 						link={nextRace.link || ""}
-						description={nextRace.description || ""}
-						flag={nextRace.flag || { url: GenericLogo }}
+						description={nextRace.track?.name || ""}
+						flag={getSmartFileUrl(nextRace.track?.flag) || GenericLogo }
 					/>
 				) : (
 					""

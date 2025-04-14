@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Papa from "papaparse";
 import { useGetStatsDataQuery } from "../../graphql/generated";
+import { getSmartFileUrl } from "../../utils/assets";
 
 const useCsvLoader = () => {
 	const { data, error, loading } = useGetStatsDataQuery();
@@ -57,10 +58,12 @@ const useCsvLoader = () => {
 				prevDataRef.current = data;
 
 				const loadCsv = async () => {
-					if (!data?.datas[0]?.csv?.url) return;
+					const newCsv = data?.data[0]?.csv;
+					if (!newCsv?.id) return;
 
 					try {
-						const response = await fetch(data.datas[0].csv.url);
+						const csvUrl = getSmartFileUrl(newCsv) || "";
+						const response = await fetch(csvUrl);
 						const csvText = await response.text();
 
 						Papa.parse<string[]>(csvText, {
@@ -216,10 +219,12 @@ const useCsvLoader = () => {
 				};
 
 				const loadOldCsv = async () => {
-					if (!data?.datas[1]?.csv?.url) return;
+					const oldCsvUrl = data?.data[1]?.csv;
+					if (!oldCsvUrl?.id) return;
 
 					try {
-						const response = await fetch(data.datas[1].csv.url);
+						const csvUrl = getSmartFileUrl(oldCsvUrl) || "";
+						const response = await fetch(csvUrl);
 						const csvText = await response.text();
 
 						Papa.parse<string[]>(csvText, {

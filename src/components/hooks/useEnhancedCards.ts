@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import useCsvLoader from "./useCsvLoader";
 import { useGetTeamsQuery } from "../../graphql/generated";
 import useNormalizeString from "./useNormalizeString";
+import { getSmartFileUrl } from "../../utils/assets";
 
 export function useEnhancedCards() {
 	const { data } = useGetTeamsQuery();
@@ -31,9 +32,9 @@ export function useEnhancedCards() {
 						grid: driverFromData?.grid || "",
 						city: driverFromData?.city || "",
 						equipment: driverFromData?.equipment || "",
-						photo: driverFromData?.photo?.url || "",
+						photo: getSmartFileUrl(driverFromData?.photo) || "",
 						teamName: driverFromData?.team?.name || "",
-						teamColor: driverFromData?.team?.color?.hex || "",
+						teamColor: driverFromData?.team?.color || "",
 						stats: driverStats || {},
 					};
 				})

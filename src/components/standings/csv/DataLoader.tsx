@@ -3,6 +3,7 @@ import { StandingsList } from "./StandingsList";
 import useCsvLoader from "../../hooks/useCsvLoader";
 import { GetTeamsQuery } from "../../../graphql/generated";
 import useNormalizeString from "../../hooks/useNormalizeString";
+import { getSmartFileUrl } from "../../../utils/assets";
 
 interface DataLoaderProps {
 	data: GetTeamsQuery | undefined;
@@ -24,10 +25,10 @@ export function DataLoader(props: DataLoaderProps) {
 				return {
 					...driver,
 					grid: driverFromData?.grid || "",
-					photo: driverFromData?.photo?.url || "",
+					photo: getSmartFileUrl(driverFromData?.photo) || "",
 					number: driverFromData?.number || "",
 					teamName: driverFromData?.team?.name || "",
-					teamColor: driverFromData?.team?.color?.hex || "",
+					teamColor: driverFromData?.team?.color || "",
 				};
 			});
 		}
@@ -49,8 +50,8 @@ export function DataLoader(props: DataLoaderProps) {
 
 				return {
 					...team,
-					photo: teamFromData?.photo?.url || "",
-					teamColor: teamFromData?.color?.hex || "",
+					photo: getSmartFileUrl(teamFromData?.photo) || "",
+					teamColor: teamFromData?.color || "",
 					drivers: teamDrivers || "",
 				};
 			});

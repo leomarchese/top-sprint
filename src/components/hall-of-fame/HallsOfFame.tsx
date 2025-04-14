@@ -2,6 +2,7 @@ import { Skeleton } from "@mui/material";
 import Carousel from "../utils/Carousel"; // Assuming you have a Carousel component
 import { HallOfFame } from "./HallOfFame";
 import { useGetHallsOfFameQuery } from "../../graphql/generated";
+import { getSmartFileUrl } from "../../utils/assets";
 
 const loadingSkeleton = () => {
 	return (
@@ -33,9 +34,11 @@ export function HallsOfFame() {
 					</h1>
 
 					{/* Loop through hallsOfFame and generate a carousel for each item */}
-					{data?.hallsOfFame && data.hallsOfFame.length > 0 ? (
-						data.hallsOfFame.map((data) => {
-							const numOfPhotos = data.photo.length;
+					{data?.hallOfFame && data.hallOfFame.length > 0 ? (
+						data.hallOfFame.map((hallOfFame) => {
+							const photos = hallOfFame.photo || [];
+							const numOfPhotos = photos.length;
+							const seasonName = hallOfFame.season?.name || "";
 
 							// Logic to determine slidesToShow and autoplay
 							const slidesToShow =
@@ -43,11 +46,11 @@ export function HallsOfFame() {
 							const autoplay = numOfPhotos > 1; // Enable autoplay if more than 1 image
 
 							return (
-								<div key={data.id} className="mb-8">
+								<div key={hallOfFame.id} className="mb-8">
 									{/* Display the season as the title for each carousel */}
 									<div className="h-16 bg-divider bg-cover my-4 opacity-5"></div>
 									<h2 className="font-semibold text-2xl md:text-3xl tracking-wide mb-4">
-										{data.season}
+										{seasonName}
 									</h2>
 
 									<div className="w-full h-3 bg-f1-carbon my-4"></div>
@@ -55,13 +58,18 @@ export function HallsOfFame() {
 									{/* Carousel */}
 									<Carousel>
 										{/* Loop through the photos and create a slide for each one */}
-										{data.photo.map((photo, index) => (
-											<HallOfFame
-												key={`${data.id}-${index}`}
-												season={data.season || ""}
-												photo={photo}
-											/>
-										))}
+										{photos.map((photo, index) => {
+											const imageUrl = getSmartFileUrl(photo);
+											if (!imageUrl) return null;
+
+											return (
+												<HallOfFame
+													key={`${hallOfFame.id}-${index}`}
+													season={seasonName}
+													photo={imageUrl}
+												/>
+											);
+										})}
 									</Carousel>
 								</div>
 							);

@@ -2,6 +2,7 @@ import { useGetBannersQuery } from "../../graphql/generated";
 import GenericLogo from "/src/assets/img/white-logo.png";
 import { Banner } from "./Banner";
 import { Skeleton } from "@mui/material";
+import { getSmartFileUrl } from "../../utils/assets";
 
 const loadingSkeleton = () => {
 	return (
@@ -31,13 +32,13 @@ export function Banners() {
 		<aside className="md:w-1/2 mb-4 md:mb-0 border-t-8 border-r-8 border-f1-red rounded-tr-3xl relative flex flex-col justify-between">
 			<div className="pr-2 md:sticky top-16 z-10">
 				{data?.banners && data.banners.length > 0 ? (
-					data.banners.map((data) => (
+					data.banners.map((banner) => (
 						<Banner
-							key={data.id}
-							link={data.link || ""}
-							category={data.category || ""}
-							title={data.title || ""}
-							photo={data.photo || { url: GenericLogo }}
+							key={banner.id}
+							link={banner.link || ""}
+							category={banner.category || ""}
+							title={banner.title || ""}
+							photo={getSmartFileUrl(banner.photo) || GenericLogo}
 						/>
 					))
 				) : (

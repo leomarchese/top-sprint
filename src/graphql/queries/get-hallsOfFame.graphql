@@ -1,9 +1,15 @@
 query GetHallsOfFame {
-	hallsOfFame(orderBy: publishedAt_DESC) {
+	hallOfFame(sort: "-date_updated") {
 		id
-		season
-		photo {
-			url
-		}
+		title
+        season {
+            id,
+            name
+        },
+        photo {
+            directus_files_id {
+                id
+            }
+        }
 	}
 }

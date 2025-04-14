@@ -1,13 +1,24 @@
 query GetCalendars {
-	calendars(stage: PUBLISHED, orderBy: date_ASC) {
-		id
-		track
-		round
-		description
-		date
-		link
-		flag {
-			url
-		}
-	}
+  seasons(
+    filter: { status: { _eq: "published" } }
+    sort: "-date_created"
+    limit: 1
+  ) {
+    id
+    name
+    rounds {
+        id,
+        name
+        link
+        date
+        raceWinner
+        track {
+            name
+            location
+            flag {
+                id
+            }
+        }
+    }
+  }
 }

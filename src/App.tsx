@@ -13,7 +13,7 @@ function App() {
 				<BrowserRouter>
 					<Header />
 					<Router />
-					<Analytics />
+					{/* <Analytics /> */}
 					<Footer />
 				</BrowserRouter>
 			</ApolloProvider>

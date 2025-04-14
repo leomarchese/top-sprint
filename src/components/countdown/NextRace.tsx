@@ -8,7 +8,7 @@ interface NextRaceProps {
 	date: Date;
 	link: string;
 	description: string;
-	flag: { url: string };
+	flag: string;
 }
 
 export function NextRace(props: NextRaceProps) {
@@ -31,7 +31,7 @@ export function NextRace(props: NextRaceProps) {
 				<div className="flex">
 					<div className="border-r border-t rounded-lg pr-2 pt-3 rounded-br-none rounded-tl-none mr-3 border-white/50">
 						<img
-							src={props.flag?.url}
+							src={props.flag}
 							alt={`${props.track} flag`}
 							className="rounded-md min-w-[57px] min-h-[32px]"
 						/>
